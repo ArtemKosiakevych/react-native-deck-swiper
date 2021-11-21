@@ -138,8 +138,8 @@ class Swiper extends Component {
   createAnimatedEvent = () => {
     const { horizontalSwipe, verticalSwipe } = this.props
     const { x, y } = this.state.pan
-    const dx = horizontalSwipe ? x : 0
-    const dy = verticalSwipe ? y : 0
+    const dx = horizontalSwipe ? x : new Animated.Value(0)
+    const dy = verticalSwipe ? y : new Animated.Value(0)
     return { dx, dy }
   }
 
@@ -605,6 +605,7 @@ class Swiper extends Component {
       ? this.interpolateCardOpacity()
       : 1
     const rotation = this.interpolateRotation()
+    const scale = this.interpolateScale()
 
     return [
       styles.card,
@@ -612,10 +613,12 @@ class Swiper extends Component {
       {
         zIndex: 1,
         opacity: opacity,
+        height: this.props.cardHeight,
         transform: [
           { translateX: this.state.pan.x },
           { translateY: this.state.pan.y },
-          { rotate: rotation }
+          { rotate: rotation },
+          { scale }
         ]
       },
       this.props.cardStyle
@@ -689,6 +692,12 @@ class Swiper extends Component {
     this.state.pan.x.interpolate({
       inputRange: this.props.inputRotationRange,
       outputRange: this.props.outputRotationRange
+    })
+
+  interpolateScale = () =>
+    this.state.pan.y.interpolate({
+      inputRange: this.props.inputScaleRange,
+      outputRange: this.props.outputScaleRange
     })
 
   render = () => {
