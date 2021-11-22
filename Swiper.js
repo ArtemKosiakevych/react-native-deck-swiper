@@ -606,6 +606,9 @@ class Swiper extends Component {
       : 1
     const rotation = this.interpolateRotation()
     const scale = this.interpolateScale()
+    const translateY = this.interpolateTranslateY()
+    const translateX = this.interpolateTranslateX()
+    const borderRadius = this.interpolateBorderRadius()
 
     return [
       styles.card,
@@ -614,9 +617,11 @@ class Swiper extends Component {
         zIndex: 1,
         opacity: opacity,
         height: this.props.cardHeight,
+        borderRadius,
+        overflow: 'hidden',
         transform: [
-          { translateX: this.state.pan.x },
-          { translateY: this.state.pan.y },
+          { translateX },
+          { translateY },
           { rotate: rotation },
           { scale }
         ]
@@ -698,6 +703,24 @@ class Swiper extends Component {
     this.state.pan.y.interpolate({
       inputRange: this.props.inputScaleRange,
       outputRange: this.props.outputScaleRange
+    })
+    
+  interpolateTranslateY = () =>
+    this.state.pan.y.interpolate({
+      inputRange: this.props.inputCardTranslateYRange,
+      outputRange: this.props.outputCardTranslateYRange,
+    })
+    
+  interpolateTranslateX = () =>
+    this.state.pan.y.interpolate({
+      inputRange: this.props.inputCardTranslateXRange,
+      outputRange: this.props.outputCardTranslateXRange,
+    })
+
+  interpolateBorderRadius = () =>
+    this.state.pan.y.interpolate({
+      inputRange: this.props.inputCardBorderRadiusRange,
+      outputRange: this.props.outputCardBorderRadiusRange,
     })
 
   render = () => {
