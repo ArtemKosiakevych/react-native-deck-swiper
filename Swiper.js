@@ -242,14 +242,17 @@ class Swiper extends Component {
   onPanResponderRelease = (e, gestureState) => {
     this.props.dragEnd && this.props.dragEnd()
     if (this.state.panResponderLocked) {
-      this.state.pan.setValue({
-        x: 0,
-        y: 0
-      })
-      this.state.pan.setOffset({
-        x: 0,
-        y: 0
-      })
+      // Commented the lines below to prevent resetting the transform translate Y property on line 616
+      // When users swipes fast
+
+      // this.state.pan.setValue({
+      //   x: 0,
+      //   y: 0
+      // })
+      // this.state.pan.setOffset({
+      //   x: 0,
+      //   y: 0
+      // })
 
       return
     }
