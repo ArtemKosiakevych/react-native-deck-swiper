@@ -148,6 +148,10 @@ class Swiper extends Component {
   }
 
   onPanResponderMove = (event, gestureState) => {
+    if (this.state.panResponderLocked) {
+      return
+    }
+
     this.props.onSwiping(this._animatedValueX, this._animatedValueY)
 
     let { overlayOpacityHorizontalThreshold, overlayOpacityVerticalThreshold } = this.props
@@ -208,12 +212,12 @@ class Swiper extends Component {
         x: this._animatedValueX,
         y: this._animatedValueY
       })
-    }
 
-    this.state.pan.setValue({
-      x: 0,
-      y: 0
-    })
+      this.state.pan.setValue({
+        x: 0,
+        y: 0
+      })
+    }
   }
 
   validPanResponderRelease = () => {
